@@ -1,0 +1,13 @@
+# dependencies
+node_modules/
+
+# builds
+dist/
+
+# env
+.env
+.env.*
+
+# tooling
+.history/
+.DS_Store
