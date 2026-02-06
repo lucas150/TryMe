@@ -5,7 +5,7 @@ import { z } from "zod";
  */
 
 export const TryOnRequestSchema = z.object({
-  avatarId: z.string().uuid(),
+  avatarImageUrl: z.string().url(),
   garmentImageUrl: z.string().url(),
 
   // Optional styling hint for the AI
