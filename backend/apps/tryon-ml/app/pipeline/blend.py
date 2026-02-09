@@ -1,29 +1,14 @@
+# Merge warped garment with avatar and human mask to create final try-on image
+
 import cv2
-import os
-import uuid
+import numpy as np
 
-OUTPUT_DIR = "/tmp/tryon/output"
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-
-
-def fake_tryon(avatar_path, garment_path, pose):
+def blend_images(avatar_path, warped_image, human_mask):
     avatar = cv2.imread(avatar_path)
-    garment = cv2.imread(garment_path)
+    mask = cv2.resize(human_mask, (avatar.shape[1], avatar.shape[0]))
 
-    if avatar is None or garment is None:
-        raise ValueError("Failed to read avatar or garment image")
+    alpha = mask.astype(float) * 0.7
+    alpha = alpha[:, :, None]
 
-    garment_resized = cv2.resize(
-        garment,
-        (avatar.shape[1] // 2, avatar.shape[0] // 2),
-    )
-
-    x = avatar.shape[1] // 4
-    y = avatar.shape[0] // 3
-
-    avatar[y:y+garment_resized.shape[0], x:x+garment_resized.shape[1]] = garment_resized
-
-    output_path = os.path.join(OUTPUT_DIR, f"{uuid.uuid4()}.jpg")
-    cv2.imwrite(output_path, avatar)
-
-    return output_path
+    blended = (avatar * (1 - alpha) + warped_image * alpha).astype("uint8")
+    return blended

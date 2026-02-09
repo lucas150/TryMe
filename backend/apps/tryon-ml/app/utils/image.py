@@ -1,14 +1,13 @@
 import requests
 import os
+import uuid
+from app.config import INPUT_DIR
 
-INPUT_DIR = "/tmp/tryon/input"
-os.makedirs(INPUT_DIR, exist_ok=True)
-
-
-def download_image(url: str, filename: str):
+def download_image(url: str, prefix: str):
+    filename = f"{prefix}_{uuid.uuid4()}.jpg"
     path = os.path.join(INPUT_DIR, filename)
 
-    r = requests.get(url)
+    r = requests.get(url, timeout=10)
     r.raise_for_status()
 
     with open(path, "wb") as f:
