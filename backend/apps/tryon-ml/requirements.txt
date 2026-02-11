@@ -4,3 +4,5 @@ pillow
 numpy
 opencv-python
 mediapipe
+torch
+torchvision

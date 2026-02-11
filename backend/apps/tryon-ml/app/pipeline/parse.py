@@ -1,16 +1,27 @@
-import cv2
-import mediapipe as mp
+# Pixel-level person segmentation using MediaPipe Selfie Segmentation. This provides a binary mask of the person in the image, which can be used for background removal and garment overlay.
+
+# app/pipeline/parse.py
+
 import numpy as np
+from app.models.schp.inference import run_schp
 
-mp_selfie = mp.solutions.selfie_segmentation
+# LIP label indices
+UPPER_CLOTHES = 5   # ⚠️ double-check this
+LEFT_ARM = 14
+RIGHT_ARM = 15
 
-def parse_human(image_path):
-    image = cv2.imread(image_path)
-    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
-    with mp_selfie.SelfieSegmentation(model_selection=1) as segmenter:
-        result = segmenter.process(image_rgb)
+def parse_human(image_path: str):
+    parsing = run_schp(image_path)
 
-    mask = result.segmentation_mask
-    binary = (mask > 0.5).astype(np.uint8)
-    return binary
+    upper_clothes_mask = (parsing == UPPER_CLOTHES).astype(np.uint8)
+    arms_mask = (
+        (parsing == LEFT_ARM) |
+        (parsing == RIGHT_ARM)
+    ).astype(np.uint8)
+
+    return {
+        "parsing": parsing,
+        "upper_clothes": upper_clothes_mask,
+        "arms": arms_mask,
+    }

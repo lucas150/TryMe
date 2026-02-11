@@ -247,3 +247,19 @@ Garment warping
 Image blending
    ↓
 Save output
+
+
+
+
+
+To run 
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+
+
+images: 
+open /tmp/tryon/output
+
+

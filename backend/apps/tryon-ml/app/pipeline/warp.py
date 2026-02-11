@@ -1,7 +1,3 @@
-# Thin Plate Spline
-# DensePose
-# CP-VTON
-
 import cv2
 
 USE_CP_VTON = False  # switch later
