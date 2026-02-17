@@ -10,4 +10,5 @@ app.listen({ port: 3000 }, (err, address) => {
   }
 
   console.log(`🚀 API Core listening at ${address}`);
+  
 });

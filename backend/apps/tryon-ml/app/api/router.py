@@ -11,6 +11,8 @@ router = APIRouter()
 class TryOnRequest(BaseModel):
     avatar_image_url: str
     garment_image_url: str
+    debug: bool = False
+
 
 class TryOnResponse(BaseModel):
     output_image_path: str
@@ -21,6 +23,7 @@ def tryon(req: TryOnRequest):
     output_path, time_ms = run_pipeline(
         req.avatar_image_url,
         req.garment_image_url,
+        debug=req.debug,  # Set to True to enable debug mode with intermediate outputs and logs
     )
     return {
         "output_image_path": output_path,

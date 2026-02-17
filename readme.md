@@ -263,3 +263,20 @@ images:
 open /tmp/tryon/output
 
 
+
+
+run_segformer()=>
+
+Image
+   ↓
+Processor
+   ↓
+SegFormer
+   ↓
+Upscale
+   ↓
+Argmax
+   ↓
+Label Mapping
+   ↓
+Mask

@@ -8,8 +8,9 @@ export const TryOnRequestSchema = z.object({
   avatarImageUrl: z.string().url(),
   garmentImageUrl: z.string().url(),
 
-  // Optional styling hint for the AI
-  style: z.enum(["studio", "lifestyle", "runway"]).optional(),
+  style: z.enum(["studio", "lifestyle", "runway"]).optional(),   // Optional styling hint for the AI
+  debug: z.boolean().optional().default(false),   // Optional debug flag to enable detailed logging and intermediate outputs
+
 });
 
 /**
@@ -34,7 +35,8 @@ export type TryOnResponse = z.infer<typeof TryOnResponseSchema>;
 // const sampleRequest: TryOnRequest = {
 //   avatarId: "550e8400-e29b-41d4-a716-446655440000",
 //   garmentImageUrl: "https://example.com/garment.png",
-//   style: "studio",
+//   style: "studio", // Optional, defaults to "studio"
+//   debug: true, // Optional, defaults to false
 // };
 
 // const sampleResponse: TryOnResponse = {

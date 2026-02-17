@@ -16,7 +16,19 @@ export async function tryOnRoutes(app: FastifyInstance) {
         });
       }
 
-      const result = await runTryOn(parsed.data);
+      const data = parsed.data;
+
+      // ✅ centralized debug logging
+      if (data.debug) {
+        app.log.info({
+          msg: "Try-on request received",
+          avatar: data.avatarImageUrl,
+          garment: data.garmentImageUrl,
+        });
+      }
+
+      const result = await runTryOn(data, app.log);
+
       return result;
     }
   );
